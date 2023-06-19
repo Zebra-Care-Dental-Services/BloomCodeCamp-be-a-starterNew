@@ -22,7 +22,7 @@ public class Assignment {
     @Column(name = "branch")
     private String branch;
 
-    @Column(name = "review_VideoUrl")
+    @Column(name = "review_videoUrl")
     private String reviewVideoUrl;
 
     @ManyToOne
