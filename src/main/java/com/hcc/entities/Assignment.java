@@ -22,19 +22,19 @@ public class Assignment {
     @Column(name = "branch")
     private String branch;
 
-    @Column(name = "code_review_video_url")
-    private String codeReviewVideoUrl;
+    @Column(name = "review_VideoUrl")
+    private String reviewVideoUrl;
 
     @ManyToOne
     private User user;
 
     public Assignment(String status, Integer number, String githubUrl,
-                      String branch, String codeReviewVideoUrl, User user) {
+                      String branch, String reviewVideoUrl, User user) {
         this.status = status;
         this.number = number;
         this.githubUrl = githubUrl;
         this.branch = branch;
-        this.codeReviewVideoUrl = codeReviewVideoUrl;
+        this.reviewVideoUrl = reviewVideoUrl;
         this.user = user;
     }
 
