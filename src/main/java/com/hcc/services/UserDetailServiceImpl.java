@@ -7,26 +7,24 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+//import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 public class UserDetailServiceImpl implements UserDetailsService {
+//    @Autowired
+//    CustomPasswordEncoder passwordEncoder;
 
     @Autowired
-    private CustomPasswordEncoder passwordEncoder;
-
-    @Autowired
-    private UserRepository userRepository; // Assuming you have a UserRepository to retrieve users from the database
+    UserRepository userRepo;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userRepository.findByUsername(username)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found: " + username));
-
-        return org.springframework.security.core.userdetails.User.builder()
-                .username(user.getUsername())
-                .password(user.getPassword())
-                .roles("USER") // Add any necessary roles for your application
-                .build();
+        Optional<User> userOpt = userRepo.findByUsername(username);
+//        user.setUsername(username);
+//        user.setPassword(passwordEncoder.getPasswordEncoder().encode("asdfasdf"));
+        return userOpt.orElseThrow(() -> new UsernameNotFoundException("Invalid Credentials"));
     }
 }
