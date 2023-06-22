@@ -17,7 +17,6 @@ public class AssignmentController {
 
     @Autowired
     private AssignmentService assignmentService;
-
     @Autowired
     private UserService userService;
 
@@ -31,7 +30,6 @@ public class AssignmentController {
         // If the user has a role of Reviewer, attach that user as the code reviewer of this assignment
 
         Assignment updatedAssignment = assignmentService.save(assignment);
-
         return ResponseEntity.ok(updatedAssignment);
     }
 

@@ -4,6 +4,8 @@ import com.hcc.filters.jwtFilter;
 import com.hcc.services.UserDetailServiceImpl;
 import com.hcc.utils.CustomPasswordEncoder;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -29,6 +31,11 @@ public class SecurityConfig  extends WebSecurityConfigurerAdapter {
 
         auth.userDetailsService(userDetailServiceImpl).passwordEncoder(customPasswordEncoder.getPasswordEncoder());
     }
+    @Override
+    @Bean
+    public AuthenticationManager authenticationManagerBean() throws Exception {
+        return super.authenticationManagerBean();
+    }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -41,10 +48,8 @@ public class SecurityConfig  extends WebSecurityConfigurerAdapter {
         }).and();
 
         http.authorizeRequests()
-                .antMatchers("/api/auth/").permitAll()
-                .antMatchers("/api/assignments/").permitAll()
+                .antMatchers("/api/auth/**").permitAll()
                 .anyRequest().authenticated();
         http.addFilterBefore(jwtFilt, UsernamePasswordAuthenticationFilter.class);
-        
     }
 }

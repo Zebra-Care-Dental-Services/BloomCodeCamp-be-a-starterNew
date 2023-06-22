@@ -11,10 +11,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -28,10 +25,10 @@ public class AuthController {
 
 
     @PostMapping("login")
-    public ResponseEntity<?> login(@RequestBody AuthCredentialRequest request) {
+    public ResponseEntity<String> login(@RequestBody AuthCredentialRequest request) {
         // create an auth variable to store the user and password authentication
 
-        try{
+        try {
             Authentication auth = authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword())
 
@@ -42,18 +39,10 @@ public class AuthController {
 
             String token = jwtUtil.generateToken(user);
 
-             return ResponseEntity.ok().header(
-                     HttpHeaders.AUTHORIZATION,
-                     token
-             ).body(user.getUsername());
+            return new ResponseEntity<>("Endpoint Accessed", HttpStatus.OK);
 
         } catch (BadCredentialsException ex) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
-
     }
-
 }
-
-
-
