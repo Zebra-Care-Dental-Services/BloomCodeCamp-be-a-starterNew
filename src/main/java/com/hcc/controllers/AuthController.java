@@ -25,24 +25,29 @@ public class AuthController {
 
 
     @PostMapping("login")
-    public ResponseEntity<String> login(@RequestBody AuthCredentialRequest request) {
-        // create an auth variable to store the user and password authentication
+    public ResponseEntity<?> login(@RequestBody AuthCredentialRequest request) {
+//         create an auth variable to store the user and password authentication
 
-        try {
+        try{
             Authentication auth = authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword())
-
             );
 
             User user = (User) auth.getPrincipal();
-            user.setPassword(null);
+//            user.setPassword(null);
 
             String token = jwtUtil.generateToken(user);
 
-            return new ResponseEntity<>("Endpoint Accessed", HttpStatus.OK);
+             return ResponseEntity.ok().header(
+                     HttpHeaders.AUTHORIZATION,
+                     token
+             ).body(token);
 
         } catch (BadCredentialsException ex) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
-    }
+        }
 }
+
+
+

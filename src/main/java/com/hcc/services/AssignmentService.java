@@ -13,7 +13,6 @@ import java.util.Set;
 public class AssignmentService {
 
     private final AssignmentRepository assignmentRepository;
-
     @Autowired
     public AssignmentService(AssignmentRepository assignmentRepository) {
         this.assignmentRepository = assignmentRepository;
