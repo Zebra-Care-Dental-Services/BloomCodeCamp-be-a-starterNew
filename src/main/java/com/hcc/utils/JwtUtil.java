@@ -17,14 +17,12 @@ import java.util.function.Function;
 @Component
 public class JwtUtil implements Serializable {
     public static final long JWT_TOKEN_VALIDITY = 5 * 24 * 60 * 60;
-
     @Value("${jwt.secret}")
     private String jwtSecret;
 
     public String getUsernameFromToken(String token) {
         return getClaimFromToken(token, Claims::getSubject);
     }
-
     public Date getIssuedAtDateFromToken(String token) {
         return getClaimFromToken(token, Claims::getIssuedAt);
     }

@@ -20,6 +20,19 @@ public class AssignmentController {
     @Autowired
     private UserService userService;
 
+
+    @PostMapping("")
+    public ResponseEntity<?> createAssignment(@RequestBody Assignment assignment, @AuthenticationPrincipal User user) {
+        // Set the user for the assignment
+        assignment.setUser(user);
+
+        // Save the assignment
+        Assignment createdAssignment = assignmentService.save(assignment);
+
+        return ResponseEntity.ok(createdAssignment);
+    }
+
+
     @PutMapping("/{assignmentId}")
     public ResponseEntity<?> updateAssignment(
             @PathVariable Long assignmentId,

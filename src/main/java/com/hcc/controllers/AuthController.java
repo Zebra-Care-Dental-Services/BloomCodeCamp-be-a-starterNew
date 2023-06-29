@@ -25,8 +25,8 @@ public class AuthController {
 
 
     @PostMapping("login")
+    @CrossOrigin(origins = "http://localhost:3000")
     public ResponseEntity<?> login(@RequestBody AuthCredentialRequest request) {
-//         create an auth variable to store the user and password authentication
 
         try{
             Authentication auth = authenticationManager.authenticate(

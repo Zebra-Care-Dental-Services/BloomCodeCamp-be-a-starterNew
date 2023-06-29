@@ -1,4 +1,8 @@
 package com.hcc.enums;
 
-public class AssignmentStatusEnum {
+public enum AssignmentStatusEnum {
+    PENDING,
+    IN_PROGRESS,
+    COMPLETED,
+    CANCELLED
 }

@@ -1,4 +1,8 @@
 package com.hcc.enums;
 
-public class AssignmentEnum {
+public enum AssignmentEnum {
+    CREATE,
+    UPDATE,
+    DELETE,
+    VIEW
 }
