@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
 import java.util.Set;
 
 @Service
@@ -27,7 +28,9 @@ public class AssignmentService {
     public Set<Assignment> findByUser(User user) {
         return assignmentRepository.findByUser(user);
     }
-
+    public Optional<Assignment> findById(Long id) {
+        return assignmentRepository.findById(id);
+    }
     public ResponseEntity<?> delete(Long assignmentId) {
         assignmentRepository.deleteById(assignmentId);
         return ResponseEntity.ok().build();

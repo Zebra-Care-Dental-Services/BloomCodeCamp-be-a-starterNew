@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Optional;
 import java.util.Set;
 
 @RestController
@@ -30,38 +31,41 @@ public class AssignmentController {
         return ResponseEntity.ok(createdAssignment);
     }
 
-
-    @PutMapping("/{assignmentId}")
-    public ResponseEntity<?> updateAssignment(
-            @PathVariable Long assignmentId,
-            @RequestBody Assignment assignment,
-            @AuthenticationPrincipal User user
-    ) {
-        // Logic to decide what role the user is...
-        // If the user has a role of Reviewer, attach that user as the code reviewer of this assignment
-
-        Assignment updatedAssignment = assignmentService.save(assignment);
-        return ResponseEntity.ok(updatedAssignment);
-    }
-
     @GetMapping
     public ResponseEntity<?> getAssignments(@AuthenticationPrincipal User user) {
         Set<Assignment> assignmentsByUser = assignmentService.findByUser(user);
         return ResponseEntity.ok(assignmentsByUser);
     }
 
-    @DeleteMapping("/{assignmentId}")
-    public ResponseEntity<?> deleteAssignment(
-            @PathVariable Long assignmentId,
-            @AuthenticationPrincipal User user
-    ) {
-        return assignmentService.delete(assignmentId);
+    @GetMapping("{assignmentId}")
+    public ResponseEntity<?> getAssignments(@AuthenticationPrincipal User user, @PathVariable Long assignmentId) {
+        Optional<Assignment> assignment = assignmentService.findById(assignmentId);
+        return ResponseEntity.ok(assignment);
     }
+
+
+    @PutMapping("{assignmentId}")
+    public ResponseEntity<?> updateAssignment(
+            @PathVariable Long assignmentId,
+            @RequestBody Assignment updatedAssignment,
+            @AuthenticationPrincipal User user) {
+
+        Optional<Assignment> assignment = assignmentService.findById(assignmentId);
+
+        assignment.get().setStatus(updatedAssignment.getStatus());
+        assignment.get().setNumber(updatedAssignment.getNumber());
+        assignment.get().setBranch(updatedAssignment.getBranch());
+        assignment.get().setReviewVideoUrl(updatedAssignment.getReviewVideoUrl());
+        assignment.get().setGithubUrl(updatedAssignment.getGithubUrl());
+
+        Assignment createAssignment = assignmentService.save(assignment.get());
+
+        return ResponseEntity.ok(createAssignment);
+    }
+
+
     @GetMapping("/validate")
     public ResponseEntity<?> validateToken() {
-        // Perform token validation logic here
-        // ...
-
         return ResponseEntity.ok("Token is valid");
     }
 }
