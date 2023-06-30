@@ -11,12 +11,14 @@ import java.util.Set;
 
 @Service
 public class AssignmentService {
-
-    private final AssignmentRepository assignmentRepository;
     @Autowired
-    public AssignmentService(AssignmentRepository assignmentRepository) {
-        this.assignmentRepository = assignmentRepository;
-    }
+    AssignmentRepository assignmentRepository;
+
+//    private final AssignmentRepository assignmentRepository;
+
+//    public AssignmentService(AssignmentRepository assignmentRepository) {
+//        this.assignmentRepository = assignmentRepository;
+//    }
 
     public Assignment save(Assignment assignment) {
         return assignmentRepository.save(assignment);

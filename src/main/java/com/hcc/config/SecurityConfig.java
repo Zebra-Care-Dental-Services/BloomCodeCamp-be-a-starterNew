@@ -25,7 +25,7 @@ public class SecurityConfig  extends WebSecurityConfigurerAdapter {
     CustomPasswordEncoder customPasswordEncoder;
 
     @Autowired
-    jwtFilter jwtFilt;
+     jwtFilter jwtFilter;
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 
@@ -50,6 +50,6 @@ public class SecurityConfig  extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()
                 .antMatchers("/api/auth/**").permitAll()
                 .anyRequest().authenticated();
-        http.addFilterBefore(jwtFilt, UsernamePasswordAuthenticationFilter.class);
+        http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
     }
 }

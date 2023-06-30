@@ -26,6 +26,7 @@ public class Assignment {
     private String reviewVideoUrl;
 
     @ManyToOne
+    @JoinColumn(name = "user_id")
     private User user;
 
     public Assignment(String status, Integer number, String githubUrl,

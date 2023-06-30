@@ -21,33 +21,35 @@ public class AuthController {
     private AuthenticationManager authenticationManager;
 
     @Autowired
-    JwtUtil jwtUtil;
+    private JwtUtil jwtUtil;
 
-
-    @PostMapping("login")
+    @PostMapping("/login")
     @CrossOrigin(origins = "http://localhost:3000")
-    public ResponseEntity<?> login(@RequestBody AuthCredentialRequest request) {
-
-        try{
+    public ResponseEntity<String> login(@RequestBody AuthCredentialRequest request) {
+        try {
             Authentication auth = authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword())
             );
 
             User user = (User) auth.getPrincipal();
-//            user.setPassword(null);
-
             String token = jwtUtil.generateToken(user);
 
-             return ResponseEntity.ok().header(
-                     HttpHeaders.AUTHORIZATION,
-                     token
-             ).body(token);
-
+            return ResponseEntity.ok().header(HttpHeaders.AUTHORIZATION, token).body(token);
         } catch (BadCredentialsException ex) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
+    }
+
+    @PostMapping("/validate")
+    public ResponseEntity<?> validateToken(@RequestHeader(HttpHeaders.AUTHORIZATION) String token) {
+        try {
+            if (jwtUtil.validateToken(token)) {
+                return ResponseEntity.ok("Token is valid");
+            } else {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+            }
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
+    }
 }
-
-
-

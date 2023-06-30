@@ -21,12 +21,10 @@ public class AssignmentController {
     private UserService userService;
 
 
-    @PostMapping("")
+    @PostMapping
     public ResponseEntity<?> createAssignment(@RequestBody Assignment assignment, @AuthenticationPrincipal User user) {
-        // Set the user for the assignment
-        assignment.setUser(user);
 
-        // Save the assignment
+        assignment.setUser(user);
         Assignment createdAssignment = assignmentService.save(assignment);
 
         return ResponseEntity.ok(createdAssignment);
@@ -58,5 +56,12 @@ public class AssignmentController {
             @AuthenticationPrincipal User user
     ) {
         return assignmentService.delete(assignmentId);
+    }
+    @GetMapping("/validate")
+    public ResponseEntity<?> validateToken() {
+        // Perform token validation logic here
+        // ...
+
+        return ResponseEntity.ok("Token is valid");
     }
 }

@@ -9,20 +9,22 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
-import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.function.Function;
 
 @Component
-public class JwtUtil implements Serializable {
+public class JwtUtil {
+
     public static final long JWT_TOKEN_VALIDITY = 5 * 24 * 60 * 60;
+
     @Value("${jwt.secret}")
     private String jwtSecret;
 
     public String getUsernameFromToken(String token) {
         return getClaimFromToken(token, Claims::getSubject);
     }
+
     public Date getIssuedAtDateFromToken(String token) {
         return getClaimFromToken(token, Claims::getIssuedAt);
     }
@@ -64,8 +66,8 @@ public class JwtUtil implements Serializable {
                 .compact();
     }
 
-    public Boolean validateToken(String token, UserDetails userDetails) {
+    public Boolean validateToken(String token) {
         final String username = getUsernameFromToken(token);
-        return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
+        return !isTokenExpired(token);
     }
 }
