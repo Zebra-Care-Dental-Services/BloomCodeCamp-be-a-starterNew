@@ -1,6 +1,7 @@
 package com.hcc.entities;
 
 
+import com.hcc.enums.AuthorityEnum;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -89,7 +90,8 @@ public class User implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<GrantedAuthority> roles = new ArrayList<>();
-        roles.add(new Authority("role_student"));
+        roles.add(new Authority(AuthorityEnum.ROLE_STUDENT.name()));
+//        roles.add(new Authority(AuthorityEnum.ROLE_REVIEWER.name()));
         return roles;
     }
 

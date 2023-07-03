@@ -57,6 +57,7 @@ public class AssignmentController {
         assignment.get().setBranch(updatedAssignment.getBranch());
         assignment.get().setReviewVideoUrl(updatedAssignment.getReviewVideoUrl());
         assignment.get().setGithubUrl(updatedAssignment.getGithubUrl());
+        assignment.get().setCodeReviewer(updatedAssignment.getCodeReviewer());
 
         Assignment createAssignment = assignmentService.save(assignment.get());
 

@@ -29,14 +29,19 @@ public class Assignment {
     @JoinColumn(name = "user_id")
     private User user;
 
-    public Assignment(String status, Integer number, String githubUrl,
-                      String branch, String reviewVideoUrl, User user) {
+    @ManyToOne
+    @JoinColumn(name = "code_reviewer_id")
+    private User codeReviewer;
+
+    public Assignment(String status, Integer number, String githubUrl, String branch, String reviewVideoUrl,
+                      User user, User codeReviewer) {
         this.status = status;
         this.number = number;
         this.githubUrl = githubUrl;
         this.branch = branch;
         this.reviewVideoUrl = reviewVideoUrl;
         this.user = user;
+        this.codeReviewer = codeReviewer;
     }
 
     public Assignment() {
@@ -96,5 +101,13 @@ public class Assignment {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public User getCodeReviewer() {
+        return codeReviewer;
+    }
+
+    public void setCodeReviewer(User codeReviewer) {
+        this.codeReviewer = codeReviewer;
     }
 }
