@@ -21,7 +21,6 @@ public class AssignmentController {
     @Autowired
     private UserService userService;
 
-
     @PostMapping
     public ResponseEntity<?> createAssignment(@RequestBody Assignment assignment, @AuthenticationPrincipal User user) {
 
