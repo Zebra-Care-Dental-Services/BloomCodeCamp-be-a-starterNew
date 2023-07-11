@@ -21,7 +21,6 @@ public class AssignmentController {
     @Autowired
     private UserService userService;
 
-
     @PostMapping
     public ResponseEntity<?> createAssignment(@RequestBody Assignment assignment, @AuthenticationPrincipal User user) {
 
@@ -57,6 +56,7 @@ public class AssignmentController {
         assignment.get().setBranch(updatedAssignment.getBranch());
         assignment.get().setReviewVideoUrl(updatedAssignment.getReviewVideoUrl());
         assignment.get().setGithubUrl(updatedAssignment.getGithubUrl());
+        assignment.get().setCodeReviewer(updatedAssignment.getCodeReviewer());
 
         Assignment createAssignment = assignmentService.save(assignment.get());
 

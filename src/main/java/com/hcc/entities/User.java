@@ -1,6 +1,7 @@
 package com.hcc.entities;
 
 
+import com.hcc.enums.AuthorityEnum;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -27,13 +28,17 @@ public class User implements UserDetails {
     private String password;
 
     @OneToMany(targetEntity = Authority.class, mappedBy = "user")
-    private List<Authority> authorities;
+    private List<Authority> authorities = new ArrayList<>();
 
     public User(){};
     public User(LocalDate cohortStartDate, String username, String password) {
         this.cohortStartDate = cohortStartDate;
         this.username = username;
         this.password = password;
+    }
+    public void addAuthority(Authority authority) {
+        authority.setUser(this);
+        authorities.add(authority);
     }
 
     public void setUsername(String username) {
@@ -89,7 +94,8 @@ public class User implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<GrantedAuthority> roles = new ArrayList<>();
-        roles.add(new Authority("role_student"));
+        roles.add(new Authority(AuthorityEnum.ROLE_STUDENT.name()));
+//        roles.add(new Authority(AuthorityEnum.ROLE_REVIEWER.name()));
         return roles;
     }
 

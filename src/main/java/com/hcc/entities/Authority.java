@@ -1,4 +1,5 @@
 package com.hcc.entities;
+
 import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.*;
@@ -16,6 +17,8 @@ public class Authority implements GrantedAuthority {
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
+
+
     public Authority() {
     }
 

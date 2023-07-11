@@ -1,6 +1,8 @@
 package com.hcc.services;
 
+import com.hcc.entities.Authority;
 import com.hcc.entities.User;
+import com.hcc.enums.AuthorityEnum;
 import com.hcc.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -36,5 +38,10 @@ public class UserService {
 
     public void deleteUser(Long id) {
         userRepository.deleteById(id);
+    }
+
+    public boolean isReviewer(User user) {
+        return user.getAuthorities().stream()
+                .anyMatch(authority -> authority.getAuthority().equals(AuthorityEnum.ROLE_REVIEWER));
     }
 }
